@@ -1,15 +1,4 @@
 # Starter pipeline
-- task: Ansible@0
-  inputs:
-    ansibleInterface: 'remoteMachine'
-    connectionOverSsh: 'SSH - Ansible VM'
-    playbookSourceRemoteMachine: 'agentMachine'
-    playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
-    playbookPathLinkedArtifactOnRemoteMachine: 'users.yml'
-    inventoriesRemoteMachine: 'file'
-    inventoryFileSourceRemoteMachine: 'agentMachine'
-    inventoryFileLinkedArtifactOnRemoteMachine: 'azure_rm.yml'
-    args: '--private-key ~/.ssh/ansible_rsa'
 
 trigger:
 - master
@@ -18,6 +7,18 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: Ansible@0
+  inputs:
+    ansibleInterface: 'remoteMachine'
+    connectionOverSsh: 'SSH - Ansible VM'
+    playbookPathOnAgentMachine: null
+    playbookSourceRemoteMachine: 'agentMachine'
+    playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
+    playbookPathLinkedArtifactOnRemoteMachine: 'users.yml'
+    inventoriesRemoteMachine: 'file'
+    inventoryFileSourceRemoteMachine: 'agentMachine'
+    inventoryFileLinkedArtifactOnRemoteMachine: 'azure_rm.yml'
+    args: '--private-key ~/.ssh/ansible_rsa'
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
